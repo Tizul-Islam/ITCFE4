@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fetchSiteSettings } from "../config/siteSettingsApi";
+import { fetchPlatformSummaryMock } from "../mock/mockApi";
 import { CountUp } from 'countup.js';
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Api_Base_Url, Site_Id } from "../config/api";
 
 const Stats = () => {
   // Primary color for gradient background
@@ -53,15 +53,7 @@ const Stats = () => {
   // Fetch stats data
   useEffect(() => {
     setLoading(true);
-    fetch(`${Api_Base_Url}/platform-summary`, {
-      headers: {
-        "Site-Id": Site_Id,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch stats");
-        return res.json();
-      })
+    fetchPlatformSummaryMock()
       .then((data) => {
         setStats(data);
         setLoading(false);

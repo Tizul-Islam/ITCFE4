@@ -6,7 +6,6 @@ import VideoGallery from "../components/Gallery/VideoGallery";
 import LoginForm from "../components/LoginForm";
 import OurOpinion from "../components/OurOpinion";
 import OurWork from "../components/OurWork";
-import { Api_Base_Url, Site_Id } from "../config//api";
 import Root from "../layout/Root";
 import Blog from "../pages/Blog";
 import Contact from "../pages/Contact";
@@ -18,6 +17,15 @@ import SuccessStories from "../pages/SuccessStories";
 import Training from "../pages/Trainer";
 import TrainerDetails from "../pages/TrainerDetails";
 import ErrorPage from "../Error";
+
+import {
+  fetchCoursesMock,
+  fetchCourseByIdMock,
+  fetchInstructorsMock,
+  fetchBlogsMock,
+  fetchBlogByIdMock,
+  fetchVideoGalleriesMock,
+} from "../mock/mockApi";
 
 export const router = createBrowserRouter([
   {
@@ -33,65 +41,14 @@ export const router = createBrowserRouter([
       {
         path: "/course",
         element: <Course></Course>,
-        loader: () =>
-          fetch(`${Api_Base_Url}/courses/?page_size=100`, {
-            headers: {
-              "Site-Id": Site_Id,
-            },
-          }).then((res) => res.json()),
+        loader: () => fetchCoursesMock(),
       },
       {
         path: "/course/:id",
         element: <CourseDetails></CourseDetails>,
         loader: async ({ params }) => {
           try {
-            const response = await fetch(`${Api_Base_Url}/courses/${params.id}/`, {
-              headers: {
-                "Site-Id": Site_Id,
-              },
-            });
-            
-            if (!response.ok) {
-              throw new Error('Course not found');
-            }
-            
-            const courseData = await response.json();
-
-            // Always fetch reviews for the course
-            try {
-              const reviewsResponse = await fetch(`${Api_Base_Url}/reviews/?course=${courseData.id}`, {
-                headers: {
-                  "Site-Id": Site_Id,
-                },
-              });
-              if (reviewsResponse.ok) {
-                const reviewsData = await reviewsResponse.json();
-                courseData.reviews = reviewsData;
-              } else {
-                console.warn("Failed to fetch reviews for course", courseData.id, reviewsResponse.status);
-              }
-            } catch (error) {
-              console.error("Error fetching reviews for course", courseData.id, error);
-            }
-
-            // If course has instructor_id, fetch instructor details
-            if (courseData.instructor_id) {
-              try {
-                const instructorResponse = await fetch(`${Api_Base_Url}/instructors/${courseData.instructor_id}/`, {
-                  headers: {
-                    "Site-Id": Site_Id,
-                  },
-                });
-                
-                if (instructorResponse.ok) {
-                  const instructorData = await instructorResponse.json();
-                  courseData.instructor = instructorData;
-                }
-              } catch (instructorError) {
-                console.error("Error fetching instructor:", instructorError);
-              }
-            }
-            
+            const courseData = await fetchCourseByIdMock(params.id);
             return courseData;
           } catch (error) {
             console.error("Error fetching course:", error);
@@ -102,12 +59,7 @@ export const router = createBrowserRouter([
       {
         path: "/training",
         element: <Training></Training>,
-        loader: () =>
-          fetch(`${Api_Base_Url}/instructors/`, {
-            headers: {
-              "Site-Id": Site_Id,
-            },
-          }),
+        loader: () => fetchInstructorsMock(),
       },
       {
         path: "/games",
@@ -120,22 +72,12 @@ export const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog></Blog>,
-        loader: () =>
-          fetch(`${Api_Base_Url}/blogs/`, {
-            headers: {
-              "Site-Id": Site_Id,
-            },
-          }),
+        loader: () => fetchBlogsMock(),
       },
       {
         path: "/blog/:id",
         element: <BlogPostDetail></BlogPostDetail>,
-        loader: ({ params }) =>
-          fetch(`${Api_Base_Url}/blogs/${params.id}/`, {
-            headers: {
-              "Site-Id": Site_Id,
-            },
-          }).then((res) => res.json()),
+        loader: ({ params }) => fetchBlogByIdMock(params.id),
       },
       {
         path: "/contact",
@@ -154,16 +96,7 @@ export const router = createBrowserRouter([
         element: <VideoGallery></VideoGallery>,
         loader: async () => {
           try {
-            const response = await fetch(`${Api_Base_Url}/video-galleries`, {
-              headers: {
-                "Site-Id": Site_Id,
-                Accept: "application/json",
-              },
-            });
-            if (!response.ok) {
-              throw new Error('Failed to fetch video galleries');
-            }
-            const data = await response.json();
+            const data = await fetchVideoGalleriesMock();
             return data;
           } catch (error) {
             console.error("Error fetching video galleries:", error);

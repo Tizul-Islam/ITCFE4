@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Api_Base_Url, Site_Id } from "../config/api";
+import { fetchSuccessStoriesMock } from "../mock/mockApi";
 import { ShimmerPostItem } from "react-shimmer-effects";
 import WorkSample from "../assets/ourWork/1.jpg"; // placeholder image for dummy story
 
@@ -35,13 +35,7 @@ const SuccessStories = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${Api_Base_Url}/success-stories`, {
-          headers: {
-            "Site-Id": Site_Id,
-          },
-        });
-        if (!response.ok) throw new Error("ডেটা লোড করা যায়নি।");
-        const data = await response.json();
+        const data = await fetchSuccessStoriesMock();
         setStories(data.results || []);
       } catch (err) {
         setError(err.message || "ডেটা লোড করা যায়নি।");

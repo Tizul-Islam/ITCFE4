@@ -1,75 +1,13 @@
-import { Api_Base_Url, Site_Id } from './api';
+// ============================================================
+// Site Settings API — currently uses mock data.
+// To switch to real API: replace mock functions with fetch().
+// ============================================================
+import { fetchSiteSettingsMock, fetchSocialLinksMock } from '../mock/mockApi';
 
 export async function fetchSiteSettings() {
-
-  const response = await fetch(`${Api_Base_Url}/site-settings/?limit=100`, {
-    headers: {
-      "Site-Id": Site_Id,
-    },
-  });
-  let json = null;
-  try {
-    json = await response.json();
-  } catch {
-    // ignore JSON parse errors; will handle below
-  }
-
-  // Inspect error payload even if status not ok
-  if (json) {
-    const rawDetail = (json.detail || json.details || '').toString();
-    if (/site is not approved/i.test(rawDetail)) {
-      return { _expired: true, message: rawDetail };
-    }
-  }
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch site settings" + (json?.detail ? `: ${json.detail}` : ''));
-  }
-
-  return json;
+  return fetchSiteSettingsMock();
 }
 
 export async function fetchSocialLinks() {
-
-  const response = await fetch(`${Api_Base_Url}/social-links`, {
-    headers: {
-      "Site-Id": Site_Id,
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Failed to fetch social links");
-  }
-  return response.json();
-}
-
-
-
-{
-  /*
-
-{
-    "logo": "https://api3.amadershikkha.com/media/logo/specturm_seal-01.jpg",
-    "favicon": "https://api3.amadershikkha.com/media/favicon/Logo.png",
-    "name": "Test",
-    "site_title": null,
-    "email": "info@amadershikkha.com",
-    "phone": "+01858201035",
-    "address": "Bashundhara, Dhaka",
-    "latitude": null,
-    "longitude": null,
-    "primary_color": "#186d6d",
-    "secondary_color": "#f0f0f0",
-    "button_color": "#186d6d",
-    "footer_text": "© 2025 amadershikka. স্বর্বসত্ব সংরক্ষিত.",
-    "software_version": "1.0.0",
-    "short_description": "<p>সর্ববৃহৎ প্রযুক্তি নির্ভর, কারিগরি ও বৃত্তিমূলক শিক্ষা</p>",
-    "our_talk": "<h2>আমাদের কথা</h2>\r\n<div>📅১৩.০৫.২০২১</div>\r\n<div>&nbsp;</div>\r\n<div>কোথায় না ব্যবহার হচ্ছে। কৃষি থেকে রকেটে! এই ডিজিটাল যুগে বদলে যাচ্ছে জীবন জীবিকা। এই ডিজিটাল যুগকে বলা হচ্ছে কম্পিউটারের স্বর্ণযুগ। এই লক্ষ্যে আমরা কোম্পানীগঞ্জ উপজেলার প্রাণকেন্দ্র, উপজেলা পরিষদের সামনে ও কোম্পানীগঞ্জ থানার মাত্র ১০ গজ দক্ষিনে মামুন টাওয়ার এর ৪র্থ তলায় কারিগরি শিক্ষা বোর্ড অনুমোদিত কোম্পানীগঞ্জের সর্ববৃহৎ প্রযুক্তি নির্ভর , কারিগরি ও বৃত্তিমুলক শিক্ষা প্রসার করার জন্য \"মা কম্পিউটার্ ট্রেনিং সেন্টার'' একটি সর্বাধুনিক মানসম্পন্ন শিক্ষা প্রতিষ্ঠান গড়ে তুলেছি । শুধুমাত্র ব্যক্তিগত চাহিদা নয় বরং জাতীয় বা আন্তর্জাতিক চাহিদানুযায়ী কম্পিউটার প্রযুক্তিতে বিভিন্ন বিষয়ে প্রশিক্ষণের মাধ্যমে জনশক্তিকে আত্মবিশ্বাসী ও নির্ভরশীল হিসেবে গড়ে তোলা \" মা কম্পিউটার ট্রেনিং সেন্টার '' এর মূল উদ্দেশ্যে। বর্তমান ও ভবিষ্যতে বাংলাদেশ ও বিশ্ব প্রযুক্তিতে শিক্ষা, সংস্কৃতি, চাকুরী, ব্যবসা-বাণিজ্যসহ জীবনের প্রতিটি ক্ষেত্রেই নিয়ন্ত্রিত হবে ও হচ্ছে যুক্তির সেরা উপহার কম্পিউটার। অন্যদিকে সরকারি প্রতিষ্ঠানে কম্পিউটার সেক্টরে চাকুরীতে নিয়োগের ক্ষেত্রে কারিগরি শিক্ষা বোর্ডের সার্টিফিকেট ছাড়া চাকুরী অসম্ভব। যুগোপযোগি ও আপডেট নির্ভর কম্পিউটার প্রশিক্ষন গ্রহণ করে চাকুরিসহ দৈনন্দিন যে কোন পেশায় আপনি পেতে পারেন স্বনির্ভরশীলতা, বেকারত্ব থেকে মুক্তি। আপনি কম্পিউটার শিখবেন, সিদ্ধান্ত নিলেন, তাহলে কি বেকারত্ব দুর হয়ে যাবে ? না কখনো না। কম্পিউটার জগৎ এতই বিশাল যে, আপনার নিতে হবে সঠিক সিদ্ধান্ত , সঠিক প্রশিক্ষণ। শুধুমাত্র ভূল সিদ্ধান্তের কারণে আপনি হতাশায় ভুগবেন। আর আজীবন হিংসা করবেন সঠিক সিদ্ধান্ত নেয়া প্রশিক্ষণার্থীকে। তাই ' ' মা কম্পিউটার ট্রেনিং সেন্টার '' আপনার চাহিদা বা পছন্দকে পেশা হিসাবে নিয়ে কম্পিউটার প্রযুক্তিতে প্রশিক্ষণ দিবে। এ্রই প্রত্যাশায় ' ' মা কম্পিউটার ট্রেনিং সেন্টার '' স্বল্প খরচে, নিরিবিলি পরিবেশ ও অত্যাধুনিক সুযোগ-সুবিধা সম্বলিত, সঠিক ও যুগোপযোগী কম্পিউটার সফ্&zwnj;টওয়্যার বা হার্ডওয়্যার বা প্রোগ্রামিং বিষয়ে প্রশিক্ষণ পরিচালনা করবে।<br><br>তাই অপেক্ষা বা সময় নষ্ট না করে যে কোন সঠিক কোর্স করে প্রযুক্তির সাথে খাপ খাইয়ে নিজেকে প্রতিষ্ঠিত করতে এগিয়ে নিয়ে যাও। সামিল হও নিজেকে নিজের বস বা সেরাদের মিছিলে কর্মচারী না হয়ে , হয়ে যাও নিয়োগকর্তা ।<br><br>পরিচালককম্পিউটার ট্রেনিং সেন্টার</div>",
-    "mission_vision": "<div>\r\n<h2>মিশন ও ভিশন</h2>\r\n</div>\r\n<ul style=\"list-style-type: none;\">\r\n<li>কারিগরি শিক্ষার মাধ্যমে দক্ষ জনশক্তি তৈরি করা</li>\r\n<li>প্রযুক্তি নির্ভর শিক্ষা প্রসার করা</li>\r\n<li>জাতীয় ও আন্তর্জাতিক চাহিদা অনুযায়ী প্রশিক্ষণ প্রদান করা</li>\r\n</ul>",
-    "our_strategy": "<div>\r\n<h2>আমাদের স্ট্রাটেজি</h2>\r\n</div>\r\n<ul style=\"list-style-type: none;\">\r\n<li>আধুনিক প্রযুক্তি ব্যবহার করে শিক্ষা প্রদান</li>\r\n<li>হাতে-কলমে প্রশিক্ষণের সুযোগ</li>\r\n<li>বাস্তব জীবনের সমস্যা সমাধানের দক্ষতা অর্জন</li>\r\n</ul>",
-    "opportunity": "<div>\r\n<h2>সুযোগ-সুবিধা সমুহ</h2>\r\n</div>\r\n<ul style=\"list-style-type: none;\">\r\n<li>আধুনিক কম্পিউটার ল্যাব</li>\r\n<li>অভিজ্ঞ প্রশিক্ষক</li>\r\n<li>প্রশিক্ষণ শেষে সার্টিফিকেট প্রদান</li>\r\n<li>জব প্লেসমেন্ট সহায়তা</li>\r\n</ul>",
-    "meta_tag": "",
-    "site_id": 1
-}
-
-  */
+  return fetchSocialLinksMock();
 }

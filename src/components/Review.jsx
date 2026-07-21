@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Api_Base_Url, Site_Id } from "../config//api";
+import { fetchReviewsMock } from "../mock/mockApi";
 
 const Review = () => {
   const [data, setData] = useState(null);
@@ -10,14 +10,8 @@ const Review = () => {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch(`${Api_Base_Url}/reviews`, {
-      headers: {
-        "Site-Id": Site_Id,
-      },
-    })
-      .then((res) => res.json())
+    fetchReviewsMock()
       .then((resData) => {
-        
         setData(resData);
         setLoading(false);
       })

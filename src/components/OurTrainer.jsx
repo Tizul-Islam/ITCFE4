@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { fetchSiteSettings } from "../config/siteSettingsApi";
-import { Api_Base_Url, Site_Id } from "../config/api";
+import { fetchInstructorsMock } from "../mock/mockApi";
 import { ShimmerButton, ShimmerText, ShimmerThumbnail } from "react-shimmer-effects";
 
 // Constants for card sizing and spacing (matching CourseCard responsive widths)
@@ -155,13 +155,7 @@ const OurTrainer = () => {
     const fetchInstructors = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${Api_Base_Url}/instructors`, {
-          headers: {
-            Accept: "application/json",
-            "Site-Id": Site_Id,
-          },
-        });
-        const data = await response.json();
+        const data = await fetchInstructorsMock();
         setTrainers(data.results || []);
       } catch (error) {
         console.error("Error fetching trainers:", error);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Api_Base_Url, Site_Id } from "../config/api";
 import { fetchSiteSettings } from "../config/siteSettingsApi";
+import { fetchBannersMock } from "../mock/mockApi";
 import { ShimmerButton, ShimmerText, ShimmerThumbnail } from "react-shimmer-effects";
 
 const Hero = () => {
@@ -31,14 +31,8 @@ const Hero = () => {
     setLoading(true);
     setError(null);
 
-    fetch(`${Api_Base_Url}/banners`, {
-      headers: {
-        "Site-Id": Site_Id,
-      },
-    })
-      .then((res) => res.json())
+    fetchBannersMock()
       .then((data) => {
-
         if (Array.isArray(data) && data.length > 0) {
           setBanner(data[0]);
         } else {

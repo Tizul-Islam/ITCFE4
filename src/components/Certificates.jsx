@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Api_Base_Url, Site_Id } from "../config/api";
 import { fetchSiteSettings } from "../config/siteSettingsApi";
+import { fetchApprovalsMock } from "../mock/mockApi";
 
 // Import approval icons from assets
 
@@ -43,13 +43,7 @@ const Certificates = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(`${Api_Base_Url}/approvals`, {
-          headers: {
-            "Site-Id": Site_Id,
-          },
-        });
-        if (!response.ok) throw new Error("Failed to fetch approvals");
-        const data = await response.json();
+        const data = await fetchApprovalsMock();
         setCards(data);
       } catch (err) {
         setError(err.message || "Error fetching approvals");

@@ -1,7 +1,7 @@
 // components/SpecialDeal.js
 import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import { Api_Base_Url, Site_Id } from "../../config/api";
+import { fetchOffersMock } from "../../mock/mockApi";
 
 const SPECIAL_DEAL_KEY = "lastSpecialDealTime";
 const COOLDOWN_MINUTES = 20;
@@ -13,20 +13,13 @@ const SpecialDeal = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch offer data from API
+    // Fetch offer data from mock API
     setLoading(true);
     setError(null);
-    fetch(`${Api_Base_Url}/offers`, {
-      headers: {
-        "Site-Id": Site_Id,
-      },
-    })
-      .then((res) => res.json())
+    fetchOffersMock()
       .then((data) => {
-
         if (data.results && Array.isArray(data.results) && data.results.length > 0) {
           const firstOffer = data.results[0];
-          // Only set offer if it has an image
           if (firstOffer.image) {
             setOffer(firstOffer);
           }

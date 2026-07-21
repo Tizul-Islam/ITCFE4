@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import { Api_Base_Url, Site_Id } from "../config/api";
 import { fetchSiteSettings } from "../config/siteSettingsApi";
+import { fetchCoursesMock } from "../mock/mockApi";
 import { ShimmerButton, ShimmerText, ShimmerThumbnail } from "react-shimmer-effects";
 
 const CARD_WIDTH = 260; // reduced width for mobile
@@ -238,13 +238,7 @@ const OurCourses = () => {
     const fetchCourses = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${Api_Base_Url}/courses`, {
-          headers: {
-            Accept: "application/json",
-            "Site-Id": Site_Id,
-          },
-        });
-        const data = await response.json();
+        const data = await fetchCoursesMock();
         setCourses(data.results || []);
       } catch {
         setCourses([]);
