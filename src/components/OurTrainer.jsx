@@ -125,7 +125,7 @@ const OurTrainer = () => {
         if (parsed && parsed.timestamp && Date.now() - parsed.timestamp < cacheExpiry) {
           if (parsed.button_color) color = parsed.button_color;
         }
-      } catch (e) { /* ignore */ }
+      } catch { /* ignore */ }
     }
     if (color) {
       setButtonColor(color);
