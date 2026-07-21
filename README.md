@@ -7,7 +7,7 @@
 
 ITCFE4 is a modern, responsive, and dynamic educational platform built for **Maa Computer Training Center**. This project serves as the frontend interface for students to explore courses, view trainer profiles, read success stories, and manage admissions.
 
-**Live Frontend (Vercel):** [https://itcfe4-frontend.vercel.app](https://itcfe4-frontend.vercel.app)  
+**Live Frontend (Vercel):** [https://amader-shikkha.vercel.app/](https://amader-shikkha.vercel.app)  
 **Live Backend (Vercel):** [https://backend-hznxwyc1u-tizul-islams-projects.vercel.app](https://backend-hznxwyc1u-tizul-islams-projects.vercel.app)
 
 ---
